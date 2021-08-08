@@ -10,8 +10,10 @@ import com.example.demo.model.Product;
 public interface AccountService {
 
 	Optional<Account> findOne(String id);
-	
-	boolean checkLogin(String username, String password);
-	
+		
 	Iterable<Account> findAll();
+	
+	Optional<Account> findUser(String userName , String password);
+	
+	
 }

@@ -18,9 +18,7 @@ import javax.persistence.Table;
 @Table(name = "product")
 
 public class Product implements Serializable{
-	// khai bao id o day de cho biet id la khoa chinh
-	// tạo ra 1 bảng 
-	// column là tên cột trong db
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int ID;
@@ -30,6 +28,7 @@ public class Product implements Serializable{
 	
 	
 	private float Price;
+	
 	
 	public Product() {
 		// TODO Auto-generated constructor stub

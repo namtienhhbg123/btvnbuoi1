@@ -5,12 +5,13 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form action="checkLogin" method="post">
+	<form th:action = "@{/j_spring_security_check}" method="post">
          	User Name : <input type="text" name="username"   >
          	<br>
-         	Password <input type="password"  name="passwordUser" >
+         	Password <input type="password"  name="password" >
          	<br>
          	<button type="submit">Login</button>        	
     </form>
+    <a th:href="@{/logout/logoutSuccessful}">Logout</a>
 </body>
 </html>

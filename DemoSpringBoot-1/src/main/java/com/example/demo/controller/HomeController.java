@@ -35,7 +35,7 @@ public class HomeController {
 	
 	
 	// lấy ra toàn bộ product
-	@RequestMapping("/list")
+	@RequestMapping("/")
     public String personList(Model model) {
         model.addAttribute("products", productService.findAll());
         return "Home";
@@ -61,7 +61,7 @@ public class HomeController {
 	@PostMapping("product/save")
 	public String save(Model model, @ModelAttribute("product") Product p,RedirectAttributes redirect) {	
 		productService.save(p);
-		return "redirect:/list";		
+		return "redirect:/";		
 	}
 	
 	// tạo mới
@@ -75,7 +75,7 @@ public class HomeController {
 	@GetMapping("product/delete/{id}")
 	public String delete(@PathVariable int id,RedirectAttributes redirect) {				
 		productService.delete(id);
-		return "redirect:/list";	
+		return "redirect:/";	
 	}
 	
 	//chueyenr trang login
@@ -84,25 +84,16 @@ public class HomeController {
 		return "Login";	
 	}
 	
-	//kiểm tra account có tồn tại hay không và phân quyền
-	@PostMapping("/checkLogin")
-	public String checkLogin(Model model, @RequestParam("username") String username,
-			@RequestParam("passwordUser") String password, HttpSession ses) {
-		if (accountService.checkLogin(username, password)) {
-			if(username.equals("admin")) {
-				model.addAttribute("USERS", accountService.findAll());
-				ses.setAttribute("USERNAME", username);
-				return "Home";
-			}else {
-				Optional<Account> u = accountService.findOne(username);
-				ses.setAttribute("USERNAME", username);
-				model.addAttribute("USER", u.get());
-				return "Home";
-			}		
-		} else {
-			model.addAttribute("ERROR", "Username or Password not exist");
-			return "Login";
-		}
-	}
+	@RequestMapping("/login/{userName}/{password}")
+    public String checkLogin(@PathVariable String userName,@PathVariable String password, Model model,RedirectAttributes redirect) {
+		Optional<Account> acc = accountService.findUser(userName,password);
+		if(acc.isEmpty()) {
+			return "redirect:/login";	
+		}else {
+			model.addAttribute("user", acc);
+	        return "redirect:/home";     
+		}        
+    }
+
 	
 }
